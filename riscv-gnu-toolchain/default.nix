@@ -11,9 +11,9 @@ pkgs.stdenv.mkDerivation rec {
 
   src = pkgs.fetchFromGitHub {
     owner = "riscv-collab";
-    repo = "/riscv-gnu-toolchain";
-    rev = "refs/tags/${version}";
-    sha256 = "sha256-5BWWbjQ65/tDpWmY9r+oA013OhVkjga8GCLK90ZXe5k=";
+    repo = "riscv-gnu-toolchain";
+    rev = "${version}";
+    sha256 = "sha256-D5kz8P8MreYNifuKew3FjjsNRO8aqWjZuM4w0hlrjzE=";
     deepClone = true;
   };
 
@@ -23,12 +23,11 @@ pkgs.stdenv.mkDerivation rec {
     binutils 
     cmake 
     pkgconfig 
-    curl
     wget
-    vsftpd
-    # packages needed to build the toolchain.
+    # packages the RISC-V GNU Compiler Toolchain README says are required to build the toolchain.
     autoconf 
     automake 
+    curl
     python3 
     libmpc 
     mpfr 
@@ -52,20 +51,31 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   configurePhase = ''
+    runHook preConfigure
+
     echo "HELLO $PWD"
     mkdir -p $out/opt/riscv
+    ./configure --prefix=$out/opt/riscv --enable-multilib
+
+    runHook postConfigure
   '';
 
   buildPhase = ''
-    ls -la /build/source
-    ./configure --prefix=$out/opt/riscv --enable-multilib
+    runHook preBuild
+
     git submodule init /build/source/gcc
     make
     make linux
+
+    runHook postBuild
   '';
 
   installPhase = ''
+    runHook preInstall
+
     echo "Done!"
+
+    runHook postInstall
   '';
 
   meta = with pkgs.lib; {
