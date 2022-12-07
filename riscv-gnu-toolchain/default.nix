@@ -63,7 +63,6 @@ pkgs.stdenv.mkDerivation rec {
   buildPhase = ''
     runHook preBuild
 
-    git submodule init /build/source/gcc
     make
     make linux
 
