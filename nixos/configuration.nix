@@ -98,6 +98,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nix.settings.sandbox = "relaxed";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -128,6 +129,7 @@
     enable = true;
     enableSSHSupport = true;
   };
+  programs.kdeconnect.enable = true;
 
   # List services that you want to enable:
 
