@@ -89,10 +89,16 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       chromium
+      google-chrome
       kate
       spotify
       vscode
       minecraft
+      # IOb-SoC Development
+      verilog
+      verilator
+      gtkwave
+      (callPackage /home/pantunes/Documents/MyNixOS_conf/riscv-gnu-toolchain/default.nix {})
     ];
   };
 
