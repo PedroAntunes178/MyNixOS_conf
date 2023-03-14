@@ -47,7 +47,6 @@ stdenv.mkDerivation rec {
     autoconf
     automake
     curl
-    python3
     gawk
     bison
     flex
